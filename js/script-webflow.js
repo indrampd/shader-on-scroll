@@ -183,7 +183,7 @@ function initShaderOnScroll() {
 				const camera = new THREE.PerspectiveCamera(
 					50,
 					bounds.width / bounds.height,
-					0.1,
+					10,
 					1000
 				);
 				camera.position.z = CAMERA_POS;
@@ -264,14 +264,8 @@ function initShaderOnScroll() {
 					imageMaterial.uniforms.uBorderRadius.value =
 						getComputedStyle(media).borderRadius.replace("px", "");
 
-					// Calculate proper mesh scale to fill viewport with slight overdraw
-					const fov = camera.fov * (Math.PI / 180);
-					const distance = camera.position.z;
-					const height = 2 * Math.tan(fov / 2) * distance;
-					const width = height * camera.aspect;
-
-					// Scale mesh to fill the entire canvas viewport with 1% overdraw to ensure full coverage
-					imageMesh.scale.set(width * 1.01, height * 1.01, 1);
+					// Scale mesh to match image dimensions for proper deformation effect
+					imageMesh.scale.set(bounds.width, bounds.height, 1);
 					imageMesh.position.set(0, 0, 0);
 
 					individualScene.add(imageMesh);
@@ -426,14 +420,8 @@ function initShaderOnScroll() {
 				object.camera.fov = calcFov(CAMERA_POS);
 				object.camera.updateProjectionMatrix();
 
-				// Recalculate proper mesh scale to fill viewport with slight overdraw
-				const fov = object.camera.fov * (Math.PI / 180);
-				const distance = object.camera.position.z;
-				const height = 2 * Math.tan(fov / 2) * distance;
-				const width = height * object.camera.aspect;
-
-				// Update object properties with 1% overdraw to ensure full coverage
-				object.mesh.scale.set(width * 1.01, height * 1.01, 1);
+				// Update mesh scale to match image dimensions for proper deformation
+				object.mesh.scale.set(bounds.width, bounds.height, 1);
 				object.width = bounds.width;
 				object.height = bounds.height;
 				object.top = bounds.top + scroll.scrollY;
