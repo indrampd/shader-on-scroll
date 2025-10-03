@@ -264,8 +264,14 @@ function initShaderOnScroll() {
 					imageMaterial.uniforms.uBorderRadius.value =
 						getComputedStyle(media).borderRadius.replace("px", "");
 
-					// Scale mesh to match image dimensions for proper deformation effect
-					imageMesh.scale.set(bounds.width, bounds.height, 1);
+					// Calculate proper scale to fill viewport while maintaining proper deformation
+					const fov = camera.fov * (Math.PI / 180);
+					const distance = camera.position.z;
+					const height = 2 * Math.tan(fov / 2) * distance;
+					const width = height * camera.aspect;
+
+					// Scale to fill viewport for proper rendering
+					imageMesh.scale.set(width, height, 1);
 					imageMesh.position.set(0, 0, 0);
 
 					individualScene.add(imageMesh);
@@ -420,8 +426,13 @@ function initShaderOnScroll() {
 				object.camera.fov = calcFov(CAMERA_POS);
 				object.camera.updateProjectionMatrix();
 
-				// Update mesh scale to match image dimensions for proper deformation
-				object.mesh.scale.set(bounds.width, bounds.height, 1);
+				// Recalculate scale to fill viewport
+				const fov = object.camera.fov * (Math.PI / 180);
+				const distance = object.camera.position.z;
+				const height = 2 * Math.tan(fov / 2) * distance;
+				const width = height * object.camera.aspect;
+
+				object.mesh.scale.set(width, height, 1);
 				object.width = bounds.width;
 				object.height = bounds.height;
 				object.top = bounds.top + scroll.scrollY;
