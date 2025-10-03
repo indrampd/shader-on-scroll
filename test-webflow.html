@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Shader on Scroll - Test</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 20px;
+				font-family: Arial, sans-serif;
+				background: #000;
+				color: white;
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.image-wrapper {
+				margin: 100px 0;
+				position: relative;
+			}
+
+			img {
+				width: 100%;
+				height: 400px;
+				object-fit: cover;
+				border-radius: 20px;
+			}
+
+			h1 {
+				text-align: center;
+				margin-bottom: 50px;
+			}
+
+			p {
+				margin: 20px 0;
+				line-height: 1.6;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Shader on Scroll Test</h1>
+
+			<p>
+				This page tests the automatic canvas creation for each image
+				with the shader effect.
+			</p>
+
+			<div class="image-wrapper">
+				<img
+					src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+					data-webgl-media="true"
+					alt="Mountain landscape"
+				/>
+				<p>
+					<strong>Normal mode:</strong> Both scroll and hover effects
+				</p>
+			</div>
+
+			<p>
+				Check the console for debug messages. Each image should
+				automatically get its own canvas element.
+			</p>
+
+			<div class="image-wrapper">
+				<img
+					src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop"
+					data-webgl-media="true"
+					data-webgl-hover-only="true"
+					alt="Forest path"
+				/>
+				<p>
+					<strong>Hover-only mode:</strong> Only hover effects, no
+					scroll distortion
+				</p>
+			</div>
+
+			<p>
+				The shader effects should appear as overlays on the images
+				above.
+			</p>
+
+			<div class="image-wrapper">
+				<img
+					src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=800&h=400&fit=crop"
+					data-webgl-media="true"
+					alt="Nature landscape"
+				/>
+				<p>
+					<strong>Normal mode (explicit):</strong> Both scroll and
+					hover effects
+				</p>
+			</div>
+
+			<p>Scroll to see the effects in action!</p>
+		</div>
+
+		<script type="module" src="./js/script-webflow.js"></script>
+	</body>
+</html>
