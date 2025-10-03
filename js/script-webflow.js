@@ -10,6 +10,26 @@ import baseFragment from "../shader/baseFragment.glsl";
 import effectVertex from "../shader/effectVertex.glsl";
 import effectFragment from "../shader/effectFragment.glsl";
 
+// Initialize Lenis smooth scroll globally (always runs)
+let scroll = {
+	scrollY: window.scrollY,
+	scrollVelocity: 0,
+};
+
+const lenis = new Lenis();
+
+lenis.on("scroll", (e) => {
+	scroll.scrollY = window.scrollY;
+	scroll.scrollVelocity = e.velocity;
+});
+
+function scrollRaf(time) {
+	lenis.raf(time);
+	requestAnimationFrame(scrollRaf);
+}
+
+requestAnimationFrame(scrollRaf);
+
 // Main initialization function that runs when DOM is ready
 function initShaderOnScroll() {
 	// Check if required elements exist
@@ -19,7 +39,7 @@ function initShaderOnScroll() {
 
 	if (mediaElements.length === 0) {
 		console.warn(
-			"ShaderOnScroll: No elements with [data-webgl-media='true'] attribute found."
+			"ShaderOnScroll: No elements with [data-webgl-media='true'] attribute found. Lenis smooth scroll is still active."
 		);
 		return;
 	}
@@ -28,26 +48,6 @@ function initShaderOnScroll() {
 
 	// Constants
 	const CAMERA_POS = 500;
-
-	// smooth scroll (lenis)
-	let scroll = {
-		scrollY: window.scrollY,
-		scrollVelocity: 0,
-	};
-
-	const lenis = new Lenis();
-
-	lenis.on("scroll", (e) => {
-		scroll.scrollY = window.scrollY;
-		scroll.scrollVelocity = e.velocity;
-	});
-
-	function scrollRaf(time) {
-		lenis.raf(time);
-		requestAnimationFrame(scrollRaf);
-	}
-
-	requestAnimationFrame(scrollRaf);
 
 	// cursor position
 	let cursorPos = {
